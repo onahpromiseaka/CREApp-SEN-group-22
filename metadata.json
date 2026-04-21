@@ -1,0 +1,6 @@
+{
+  "name": "CRE Connect",
+  "description": "A modern web-based communication platform with real-time messaging, AI assistant (CREAI), daily learning system, and productivity tools.",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": []
+}

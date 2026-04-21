@@ -1,0 +1,103 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and statistics",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string" },
+        "registrationNumber": { "type": "string" },
+        "phone": { "type": "string" },
+        "department": { "type": "string" },
+        "email": { "type": "string" },
+        "specialization": { "type": "string" },
+        "stats": {
+          "type": "object",
+          "properties": {
+            "messagesSent": { "type": "integer" },
+            "lessonsCompleted": { "type": "integer" },
+            "loginFrequency": { "type": "integer" }
+          }
+        },
+        "theme": { "type": "string", "enum": ["light", "dark"] }
+      },
+      "required": ["fullName", "registrationNumber", "email", "specialization"]
+    },
+    "Chat": {
+      "title": "Chat",
+      "description": "One-to-one or group chat",
+      "type": "object",
+      "properties": {
+        "participants": { "type": "array", "items": { "type": "string" } },
+        "type": { "type": "string", "enum": ["private", "group"] },
+        "name": { "type": "string" },
+        "lastMessage": { "type": "string" },
+        "lastMessageAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Message content",
+      "type": "object",
+      "properties": {
+        "senderId": { "type": "string" },
+        "content": { "type": "string" },
+        "type": { "type": "string", "enum": ["text", "image", "video", "document", "voice"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "readBy": { "type": "array", "items": { "type": "string" } },
+        "reactions": { "type": "object" }
+      }
+    },
+    "Note": {
+      "title": "Note",
+      "description": "User personal notes",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Lesson": {
+      "title": "Lesson",
+      "description": "Daily personalized lesson",
+      "type": "object",
+      "properties": {
+        "dayNumber": { "type": "integer" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "completed": { "type": "boolean" },
+        "quiz": {
+          "type": "object",
+          "properties": {
+            "questions": { "type": "array" },
+            "score": { "type": "integer" }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "CallLog": {
+      "title": "CallLog",
+      "description": "History of calls",
+      "type": "object",
+      "properties": {
+        "participants": { "type": "array", "items": { "type": "string" } },
+        "type": { "type": "string", "enum": ["voice", "video"] },
+        "status": { "type": "string", "enum": ["missed", "completed", "ongoing"] },
+        "startedAt": { "type": "string", "format": "date-time" },
+        "duration": { "type": "integer" }
+      }
+    }
+  },
+  "firestore": {
+    "users/{userId}": { "schema": "User", "description": "Global user profiles" },
+    "chats/{chatId}": { "schema": "Chat", "description": "Messaging conversation groups" },
+    "chats/{chatId}/messages/{messageId}": { "schema": "Message", "description": "Chronological messages in a chat" },
+    "users/{userId}/notes/{noteId}": { "schema": "Note", "description": "User's private notes" },
+    "users/{userId}/lessons/{lessonId}": { "schema": "Lesson", "description": "User's daily learning progress" },
+    "callLogs/{callId}": { "schema": "CallLog", "description": "Real-time call history" },
+    "otps/{email}": { "schema": "object", "description": "Temporary storage for verification codes" }
+  }
+}
